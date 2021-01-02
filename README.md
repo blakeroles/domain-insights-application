@@ -28,6 +28,7 @@
     - The application shall show a list of all the saved data results screens
     - When a certain saved data result is tapped, it shall open up the saved data result as it would be shown on the data result screen
     - The saved data results screen shall show a date and time when the report was generated. This will allow for multiple saves on the same postcode / suburb.
+    - The user shall be able to remove saved data results from this screen.
 - The shortlisted data results screen
     - The shortlisted data results screen shall show a list of all the shortlisted properties that the user has shortlisted
     - The user shall be able to remove shortlisted properties from this list
@@ -39,3 +40,6 @@
     - The user shall be able to remove inspections from this list
 - Exit
     - The application shall exit when the exit button is pressed
+- The application shall take advantage of push notifications for property inspections
+- The user shall be able to set up alerts for if a new property is added in a suburb
+- The user shall be able to set up alerts of median price increase / decrease in a suburb
