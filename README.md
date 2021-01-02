@@ -1,1 +1,41 @@
 # domain-insights-application
+
+## Requirements
+
+- The application shall be developed using flutter
+- The application shall return an error if there is no active internet connection
+- The application shall still be useable when there is no internet connection - but with limited functionalities (no new searches)
+- The application shall have a title screen that allows the user to enter a suburb or postcode to generate a data report
+- Once the suburb or postcode is entered, the title screen shall transition to a loading screen while the data report is being generated
+- To generate the data report, the application shall make use of the domain API
+- Once the data report has been generated, the application shall transition from the loading screen to the data result screen
+- The user shall be able to filter out information (property type, price, bedrooms, bathrooms etc) on the data result screen
+- The data result screen shall show the following information
+    - Number of available properties at current time
+    - Median sold price at current time
+    - Historical plot of available properties vs time
+    - Historical plot of median sold price vs time
+    - List of available properties at current time (list with information such as title, property type, bedrooms, bathrooms, price, link to domain)
+    - The user shall be able to shortlist a property to their favourited properties
+    - The user shall be able to save this data result for viewing later on in the saved data results screen
+- The application shall have a navigation drawer with the following links
+    - Home (Title screen)
+    - Saved data results
+    - Shortlisted properties
+    - Inspection calendar
+    - Exit
+- The saved data results screen
+    - The application shall show a list of all the saved data results screens
+    - When a certain saved data result is tapped, it shall open up the saved data result as it would be shown on the data result screen
+    - The saved data results screen shall show a date and time when the report was generated. This will allow for multiple saves on the same postcode / suburb.
+- The shortlisted data results screen
+    - The shortlisted data results screen shall show a list of all the shortlisted properties that the user has shortlisted
+    - The user shall be able to remove shortlisted properties from this list
+    - The user shall be able to add notes to the shortlisted properties
+    - The user shall be able to link directly to the domain property listing from the shortlisted screen
+- The inspection calendar screen
+    - The user shall be able to add inspections to their inspection calendar from the shortlisted properties screen
+    - The user shall be able to view a list of inspections on this screen for each day
+    - The user shall be able to remove inspections from this list
+- Exit
+    - The application shall exit when the exit button is pressed
