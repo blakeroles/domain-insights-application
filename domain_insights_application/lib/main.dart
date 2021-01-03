@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'iPropty',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -20,13 +20,13 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'iPropty'),
     );
   }
 }
@@ -72,6 +72,49 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Drawer Header'),
+              decoration: BoxDecoration(
+                color: Colors.green,
+              ),
+            ),
+            ListTile(
+              title: Text('Home'),
+              onTap: () {
+                // Update the state of the app
+              },
+            ),
+            ListTile(
+              title: Text('Saved Data Results'),
+              onTap: () {
+                // Update the state of the app
+              },
+            ),
+            ListTile(
+              title: Text('Shortlisted Properties'),
+              onTap: () {
+                // Update the state of the app
+              },
+            ),
+            ListTile(
+              title: Text('Inspection Calendar'),
+              onTap: () {
+                // Update the state of the app
+              },
+            ),
+            ListTile(
+              title: Text('Exit'),
+              onTap: () {
+                // Update the state of the app
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
