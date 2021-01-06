@@ -8,8 +8,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final appTitle = 'iPropty';
+
     return MaterialApp(
-      title: 'iPropty',
+      title: appTitle,
       theme: ThemeData(
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -59,10 +61,66 @@ class MyApp extends StatelessWidget {
           ),
         ),
         appBar: AppBar(
-          title: Text("iPropty"),
+          title: Text(appTitle),
         ),
-        body: Center(
-          child: Text("Hello world!"),
+        body: MainTitleForm(),
+      ),
+    );
+  }
+}
+
+// Create the MainTitleForm widget
+class MainTitleForm extends StatefulWidget {
+  @override
+  MainTitleFormState createState() {
+    return MainTitleFormState();
+  }
+}
+
+// Create the MainTitleFormState class
+class MainTitleFormState extends State<MainTitleForm> {
+  // Create a global key that uniquely identifies the From widget
+  // and allows validation of the form
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    // Build a Form widget using the _formKey created above
+    return Form(
+      key: _formKey,
+      child: Container(
+        width: 250.0,
+        height: 860.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Spacer(),
+            TextFormField(
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                hintText: 'Enter a suburb or postcode',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: RaisedButton(
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    Scaffold.of(context).showSnackBar(
+                        SnackBar(content: Text('Processing Data')));
+                  }
+                },
+                child: Text('Submit'),
+              ),
+            ),
+            Spacer(),
+          ],
         ),
       ),
     );
