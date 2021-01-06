@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
             padding: EdgeInsets.zero,
             children: <Widget>[
               DrawerHeader(
-                child: Text('Drawer Header'),
+                child: Text(appTitle),
                 decoration: BoxDecoration(
                   color: Colors.green,
                 ),
