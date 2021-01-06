@@ -1,5 +1,8 @@
+import 'package:domain_insights_application/DomainAuthenticator.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
 
 void main() {
   runApp(MyApp());
@@ -116,6 +119,10 @@ class MainTitleFormState extends State<MainTitleForm> {
                     Scaffold.of(context).showSnackBar(
                         SnackBar(content: Text('Processing Data')));
                   }
+
+                  //DomainAuthenticator dc =
+                  //    DomainAuthenticator.fromJson(jsonDecode(appInfoSecret));
+                  print("Hello");
                 },
                 child: Text('Submit'),
               ),
@@ -125,5 +132,9 @@ class MainTitleFormState extends State<MainTitleForm> {
         ),
       ),
     );
+  }
+
+  Future<String> loadAppInfoSecretAsset() async {
+    return jsonDecode(await rootBundle.loadString('assets/app_info.secret'));
   }
 }
