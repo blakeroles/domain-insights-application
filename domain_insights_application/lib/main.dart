@@ -86,6 +86,17 @@ class MainTitleFormState extends State<MainTitleForm> {
   // Create a global key that uniquely identifies the From widget
   // and allows validation of the form
   final _formKey = GlobalKey<FormState>();
+  DomainAuthenticator dc = DomainAuthenticator();
+
+  @override
+  void initState() {
+    getAppInfoSecretJson().then((value) {
+      setState(() {
+        dc = value;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,9 +131,7 @@ class MainTitleFormState extends State<MainTitleForm> {
                         SnackBar(content: Text('Processing Data')));
                   }
 
-                  //DomainAuthenticator dc =
-                  //    DomainAuthenticator.fromJson(jsonDecode(appInfoSecret));
-                  print("Hello");
+                  print(dc.clientSecret);
                 },
                 child: Text('Submit'),
               ),
@@ -134,7 +143,11 @@ class MainTitleFormState extends State<MainTitleForm> {
     );
   }
 
-  Future<String> loadAppInfoSecretAsset() async {
-    return jsonDecode(await rootBundle.loadString('assets/app_info.secret'));
+  Future<DomainAuthenticator> getAppInfoSecretJson() async {
+    var appInfoSecretJson =
+        json.decode(await rootBundle.loadString('assets/app_info.secret'));
+    DomainAuthenticator dc =
+        DomainAuthenticator.fromJson(appInfoSecretJson['api_info']);
+    return dc;
   }
 }
