@@ -4,9 +4,10 @@ class DomainAuthenticator {
   // Attributes
   String clientId;
   String clientSecret;
+  String accessToken;
 
   // Constructors
-  DomainAuthenticator({this.clientId, this.clientSecret});
+  DomainAuthenticator({this.clientId, this.clientSecret, this.accessToken});
 
   // Methods
   DomainAuthenticator.fromJson(Map<String, dynamic> jsonToken) {

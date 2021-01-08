@@ -1,7 +1,7 @@
 import 'package:domain_insights_application/DomainAuthenticator.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart' show rootBundle;
 
 void main() {
@@ -97,8 +97,10 @@ class MainTitleFormState extends State<MainTitleForm> {
     getAppInfoSecretJson().then((value) {
       setState(() {
         dc = value;
+        authenticate(dc);
       });
     });
+
     super.initState();
   }
 
@@ -134,8 +136,7 @@ class MainTitleFormState extends State<MainTitleForm> {
                     Scaffold.of(context).showSnackBar(
                         SnackBar(content: Text('Processing Data')));
                   }
-
-                  print(dc.clientSecret);
+                  print(dc.accessToken);
                 },
                 child: Text('Submit'),
               ),
@@ -155,5 +156,24 @@ class MainTitleFormState extends State<MainTitleForm> {
     DomainAuthenticator dc =
         DomainAuthenticator.fromJson(appInfoSecretJson['api_info']);
     return dc;
+  }
+
+  // Function to authenticate with the domain server and
+  // retrieve an access code to use
+  void authenticate(DomainAuthenticator dc) async {
+    final http.Response response = await http.post(
+        'https://auth.domain.com.au/v1/connect/token',
+        body: <String, String>{
+          'client_id': dc.clientId,
+          'client_secret': dc.clientSecret,
+          'grant_type': 'client_credentials',
+          'scope': 'api_locations_read',
+          'Content-Type': 'text/json',
+        });
+    if (response.statusCode == 200) {
+      dc.accessToken = json.decode(response.body)['access_token'];
+    } else {
+      throw Exception('Failed to authenticate with server!');
+    }
   }
 }
