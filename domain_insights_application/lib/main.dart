@@ -1,4 +1,5 @@
 import 'package:domain_insights_application/DomainAuthenticator.dart';
+import 'package:domain_insights_application/DomainSuburb.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -136,7 +137,9 @@ class MainTitleFormState extends State<MainTitleForm> {
                     Scaffold.of(context).showSnackBar(
                         SnackBar(content: Text('Processing Data')));
                   }
-                  print(dc.accessToken);
+                  var ds = DomainSuburb("Kellyville");
+                  getDomainSuburbIdJson(dc, ds);
+                  print(ds.domainSuburbID);
                 },
                 child: Text('Submit'),
               ),
@@ -167,13 +170,30 @@ class MainTitleFormState extends State<MainTitleForm> {
           'client_id': dc.clientId,
           'client_secret': dc.clientSecret,
           'grant_type': 'client_credentials',
-          'scope': 'api_locations_read',
+          'scope': 'api_addresslocators_read',
           'Content-Type': 'text/json',
         });
     if (response.statusCode == 200) {
       dc.accessToken = json.decode(response.body)['access_token'];
     } else {
       throw Exception('Failed to authenticate with server!');
+    }
+  }
+
+  // Function to get the domainSuburbId based on the suburb
+  // entered in the text field
+  void getDomainSuburbIdJson(DomainAuthenticator dc, DomainSuburb ds) async {
+    final http.Response response = await http.get(
+        'https://api.domain.com.au/v1/addresslocators?searchLevel=Suburb&suburb=' +
+            ds.suburbName +
+            "&state=NSW",
+        headers: <String, String>{
+          'Authorization': 'Bearer ' + dc.accessToken,
+        });
+    if (response.statusCode == 200) {
+      ds.domainSuburbID = json.decode(response.body)[0]['ids'][0]['id'];
+    } else {
+      throw Exception('Failed to get suburb id from server!');
     }
   }
 }
