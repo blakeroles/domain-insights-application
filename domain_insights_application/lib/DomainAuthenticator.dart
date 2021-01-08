@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-
+// This class is responsible for storing the values that are required
+// for authenticate with the Domain API
 class DomainAuthenticator {
   // Attributes
   String clientId;

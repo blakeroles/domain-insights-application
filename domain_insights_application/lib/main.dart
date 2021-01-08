@@ -86,8 +86,12 @@ class MainTitleFormState extends State<MainTitleForm> {
   // Create a global key that uniquely identifies the From widget
   // and allows validation of the form
   final _formKey = GlobalKey<FormState>();
+
+  // Initialise DomainAuthenticator class
   DomainAuthenticator dc = DomainAuthenticator();
 
+  // Override the initState method to load the clientId and clientSecret
+  // from json only once on load
   @override
   void initState() {
     getAppInfoSecretJson().then((value) {
@@ -143,6 +147,8 @@ class MainTitleFormState extends State<MainTitleForm> {
     );
   }
 
+  // Function to load the app_info.secret json file and create a
+  // DomainAuthenticator object
   Future<DomainAuthenticator> getAppInfoSecretJson() async {
     var appInfoSecretJson =
         json.decode(await rootBundle.loadString('assets/app_info.secret'));
