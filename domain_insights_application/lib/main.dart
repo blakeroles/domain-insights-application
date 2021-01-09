@@ -187,16 +187,24 @@ class MainTitleFormState extends State<MainTitleForm> {
                         SnackBar(content: Text('Processing Data')));
                   }
 
-                  // Get the suburb ID from the supplied Suburb and State
-                  int suburbID = await getDomainSuburbIdJson(
-                      dc, suburbTextController.text, stateDropDownValue);
-                  // Create a DomainSuburb object
-                  DomainSuburb ds = DomainSuburb(
-                      suburbTextController.text, stateDropDownValue, suburbID);
+                  if (suburbTextController.text.isEmpty) {
+                    _showErrorDialog(
+                        'Suburb Field Empty!',
+                        'The suburb field is empty',
+                        'Please enter a suburb',
+                        'OK');
+                  } else {
+                    // Get the suburb ID from the supplied Suburb and State
+                    int suburbID = await getDomainSuburbIdJson(
+                        dc, suburbTextController.text, stateDropDownValue);
+                    // Create a DomainSuburb object
+                    DomainSuburb ds = DomainSuburb(suburbTextController.text,
+                        stateDropDownValue, suburbID);
 
-                  print(ds.suburbName);
-                  print(ds.suburbState);
-                  print(ds.domainSuburbID);
+                    print(ds.suburbName);
+                    print(ds.suburbState);
+                    print(ds.domainSuburbID);
+                  }
                 },
                 child: Text('Submit'),
               ),
