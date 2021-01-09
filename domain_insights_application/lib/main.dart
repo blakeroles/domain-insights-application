@@ -88,6 +88,9 @@ class MainTitleFormState extends State<MainTitleForm> {
   // and allows validation of the form
   final _formKey = GlobalKey<FormState>();
 
+  // Create a text controller for the suburb text field
+  final suburbTextController = TextEditingController();
+
   // Initialise DomainAuthenticator class
   DomainAuthenticator dc = DomainAuthenticator();
 
@@ -103,6 +106,14 @@ class MainTitleFormState extends State<MainTitleForm> {
     });
 
     super.initState();
+  }
+
+  // Override the dispose function to clean up the text controller
+  // when the widget is disposed
+  @override
+  void dispose() {
+    suburbTextController.dispose();
+    super.dispose();
   }
 
   @override
@@ -132,14 +143,16 @@ class MainTitleFormState extends State<MainTitleForm> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: RaisedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     Scaffold.of(context).showSnackBar(
                         SnackBar(content: Text('Processing Data')));
                   }
-                  var ds = DomainSuburb("Kellyville");
-                  getDomainSuburbIdJson(dc, ds);
-                  print(ds.domainSuburbID);
+
+                  // Get the value of the suburb text field
+                  var suburb = "Kellyville";
+                  int suburbID = await getDomainSuburbIdJson(dc, suburb);
+                  print(suburbID);
                 },
                 child: Text('Submit'),
               ),
@@ -182,16 +195,17 @@ class MainTitleFormState extends State<MainTitleForm> {
 
   // Function to get the domainSuburbId based on the suburb
   // entered in the text field
-  void getDomainSuburbIdJson(DomainAuthenticator dc, DomainSuburb ds) async {
+  Future<int> getDomainSuburbIdJson(
+      DomainAuthenticator dc, String suburb) async {
     final http.Response response = await http.get(
         'https://api.domain.com.au/v1/addresslocators?searchLevel=Suburb&suburb=' +
-            ds.suburbName +
+            suburb +
             "&state=NSW",
         headers: <String, String>{
           'Authorization': 'Bearer ' + dc.accessToken,
         });
     if (response.statusCode == 200) {
-      ds.domainSuburbID = json.decode(response.body)[0]['ids'][0]['id'];
+      return json.decode(response.body)[0]['ids'][0]['id'];
     } else {
       throw Exception('Failed to get suburb id from server!');
     }

@@ -1,15 +1,13 @@
 class DomainSuburb {
   // Attributes
   String suburbName;
+  String suburbState;
   int domainSuburbID;
 
   // Constructor
-  DomainSuburb(String suburb) {
+  DomainSuburb(String suburb, String suburbState, int domainSid) {
     this.suburbName = suburb;
-  }
-
-  // Methods
-  DomainSuburb.fromJson(Map<String, dynamic> jsonToken) {
-    domainSuburbID = jsonToken['Suburb'];
+    this.suburbState = suburbState;
+    this.domainSuburbID = domainSuburbID;
   }
 }
