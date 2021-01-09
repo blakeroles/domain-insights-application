@@ -91,6 +91,9 @@ class MainTitleFormState extends State<MainTitleForm> {
   // Create a text controller for the suburb text field
   final suburbTextController = TextEditingController();
 
+  // Set the initial selection for the stateDropDownBox
+  String stateDropDownValue = 'NSW';
+
   // Initialise DomainAuthenticator class
   DomainAuthenticator dc = DomainAuthenticator();
 
@@ -135,10 +138,42 @@ class MainTitleFormState extends State<MainTitleForm> {
                 }
                 return null;
               },
+              controller: suburbTextController,
               decoration: InputDecoration(
                 hintText: 'Enter a suburb or postcode',
                 border: OutlineInputBorder(),
               ),
+            ),
+            DropdownButton<String>(
+              value: stateDropDownValue,
+              icon: Icon(Icons.arrow_drop_down),
+              iconSize: 24,
+              elevation: 16,
+              style: TextStyle(color: Colors.green),
+              underline: Container(
+                height: 2,
+                color: Colors.greenAccent,
+              ),
+              onChanged: (String newValue) {
+                setState(() {
+                  stateDropDownValue = newValue;
+                });
+              },
+              items: <String>[
+                'NSW',
+                'QLD',
+                'SA',
+                'VIC',
+                'WA',
+                'NT',
+                'TAS',
+                'ACT'
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -149,10 +184,16 @@ class MainTitleFormState extends State<MainTitleForm> {
                         SnackBar(content: Text('Processing Data')));
                   }
 
-                  // Get the value of the suburb text field
-                  var suburb = "Kellyville";
-                  int suburbID = await getDomainSuburbIdJson(dc, suburb);
-                  print(suburbID);
+                  // Get the suburb ID from the supplied Suburb and State
+                  int suburbID = await getDomainSuburbIdJson(
+                      dc, suburbTextController.text, stateDropDownValue);
+                  // Create a DomainSuburb object
+                  DomainSuburb ds = DomainSuburb(
+                      suburbTextController.text, stateDropDownValue, suburbID);
+
+                  print(ds.suburbName);
+                  print(ds.suburbState);
+                  print(ds.domainSuburbID);
                 },
                 child: Text('Submit'),
               ),
@@ -196,15 +237,17 @@ class MainTitleFormState extends State<MainTitleForm> {
   // Function to get the domainSuburbId based on the suburb
   // entered in the text field
   Future<int> getDomainSuburbIdJson(
-      DomainAuthenticator dc, String suburb) async {
+      DomainAuthenticator dc, String suburb, String state) async {
     final http.Response response = await http.get(
         'https://api.domain.com.au/v1/addresslocators?searchLevel=Suburb&suburb=' +
             suburb +
-            "&state=NSW",
+            "&state=" +
+            state,
         headers: <String, String>{
           'Authorization': 'Bearer ' + dc.accessToken,
         });
     if (response.statusCode == 200) {
+      print(json.decode(response.body));
       return json.decode(response.body)[0]['ids'][0]['id'];
     } else {
       throw Exception('Failed to get suburb id from server!');

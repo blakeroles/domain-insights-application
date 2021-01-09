@@ -8,6 +8,6 @@ class DomainSuburb {
   DomainSuburb(String suburb, String suburbState, int domainSid) {
     this.suburbName = suburb;
     this.suburbState = suburbState;
-    this.domainSuburbID = domainSuburbID;
+    this.domainSuburbID = domainSid;
   }
 }
