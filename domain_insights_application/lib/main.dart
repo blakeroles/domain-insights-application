@@ -97,6 +97,9 @@ class MainTitleFormState extends State<MainTitleForm> {
   // Initialise DomainAuthenticator class
   DomainAuthenticator dc = DomainAuthenticator();
 
+  // Authenticated flag
+  bool authenticated = false;
+
   // Override the initState method to load the clientId and clientSecret
   // from json only once on load
   @override
@@ -229,7 +232,13 @@ class MainTitleFormState extends State<MainTitleForm> {
         });
     if (response.statusCode == 200) {
       dc.accessToken = json.decode(response.body)['access_token'];
+      authenticated = true;
     } else {
+      _showErrorDialog(
+          'API authentication failed!',
+          'API authentication failed with the server',
+          'Please restart application',
+          'OK');
       throw Exception('Failed to authenticate with server!');
     }
   }
@@ -250,7 +259,42 @@ class MainTitleFormState extends State<MainTitleForm> {
       print(json.decode(response.body));
       return json.decode(response.body)[0]['ids'][0]['id'];
     } else {
+      _showErrorDialog(
+          'API Call Failed',
+          'The suburb/state combination provided does not exist!',
+          'Please enter a correct suburb/state combination',
+          'OK');
       throw Exception('Failed to get suburb id from server!');
     }
+  }
+
+  // Alert dialog if API call fails
+  Future<void> _showErrorDialog(
+      String title, String message, String question, String buttonText) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message),
+                Text(question),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            RaisedButton(
+              child: Text(buttonText),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
