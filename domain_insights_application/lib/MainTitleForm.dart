@@ -155,8 +155,6 @@ class MainTitleFormState extends State<MainTitleForm> {
                       int medianSoldPrice = await getMedianSoldPriceJson(
                           dc, suburbID, stateDropDownValue);
 
-                      print(medianSoldPrice);
-
                       // Create a DomainSuburbData object
                       DomainSuburbData dsd = DomainSuburbData(
                           suburb: suburbTextController.text,
