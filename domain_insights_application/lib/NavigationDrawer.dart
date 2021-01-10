@@ -1,3 +1,4 @@
+import 'package:domain_insights_application/MainTitleForm.dart';
 import 'package:flutter/material.dart';
 
 class NavigationDrawer extends StatelessWidget {
@@ -20,7 +21,11 @@ class NavigationDrawer extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text('Home'),
             onTap: () {
-              // Update the state of the app
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MainTitleFormStateless()),
+              );
             },
           ),
           ListTile(
