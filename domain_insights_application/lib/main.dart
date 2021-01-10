@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:loading_overlay/loading_overlay.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,54 +23,53 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
-        drawer: Drawer(
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                child: Text(appTitle),
-                decoration: BoxDecoration(
-                  color: Colors.green,
+          drawer: Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                DrawerHeader(
+                  child: Text(appTitle),
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                  ),
                 ),
-              ),
-              ListTile(
-                title: Text('Home'),
-                onTap: () {
-                  // Update the state of the app
-                },
-              ),
-              ListTile(
-                title: Text('Saved Data Results'),
-                onTap: () {
-                  // Update the state of the app
-                },
-              ),
-              ListTile(
-                title: Text('Shortlisted Properties'),
-                onTap: () {
-                  // Update the state of the app
-                },
-              ),
-              ListTile(
-                title: Text('Inspection Calendar'),
-                onTap: () {
-                  // Update the state of the app
-                },
-              ),
-              ListTile(
-                title: Text('Exit'),
-                onTap: () {
-                  // Update the state of the app
-                },
-              ),
-            ],
+                ListTile(
+                  title: Text('Home'),
+                  onTap: () {
+                    // Update the state of the app
+                  },
+                ),
+                ListTile(
+                  title: Text('Saved Data Results'),
+                  onTap: () {
+                    // Update the state of the app
+                  },
+                ),
+                ListTile(
+                  title: Text('Shortlisted Properties'),
+                  onTap: () {
+                    // Update the state of the app
+                  },
+                ),
+                ListTile(
+                  title: Text('Inspection Calendar'),
+                  onTap: () {
+                    // Update the state of the app
+                  },
+                ),
+                ListTile(
+                  title: Text('Exit'),
+                  onTap: () {
+                    // Update the state of the app
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-        appBar: AppBar(
-          title: Text(appTitle),
-        ),
-        body: MainTitleForm(),
-      ),
+          appBar: AppBar(
+            title: Text(appTitle),
+          ),
+          body: MainTitleForm()),
     );
   }
 }
@@ -100,6 +100,9 @@ class MainTitleFormState extends State<MainTitleForm> {
   // Authenticated flag
   bool authenticated = false;
 
+  // Show progress indicator flag
+  bool _isLoading = false;
+
   // Override the initState method to load the clientId and clientSecret
   // from json only once on load
   @override
@@ -125,94 +128,85 @@ class MainTitleFormState extends State<MainTitleForm> {
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above
-    return Form(
-      key: _formKey,
-      child: Container(
-        width: 250.0,
-        height: 860.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Spacer(),
-            TextFormField(
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-              controller: suburbTextController,
-              decoration: InputDecoration(
-                hintText: 'Enter a suburb or postcode',
-                border: OutlineInputBorder(),
+    return LoadingOverlay(
+      child: Form(
+        key: _formKey,
+        child: Container(
+          width: 250.0,
+          height: 860.0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Spacer(),
+              TextFormField(
+                controller: suburbTextController,
+                decoration: InputDecoration(
+                  hintText: 'Enter a suburb or postcode',
+                  border: OutlineInputBorder(),
+                ),
               ),
-            ),
-            DropdownButton<String>(
-              value: stateDropDownValue,
-              icon: Icon(Icons.arrow_drop_down),
-              iconSize: 24,
-              elevation: 16,
-              style: TextStyle(color: Colors.green),
-              underline: Container(
-                height: 2,
-                color: Colors.greenAccent,
-              ),
-              onChanged: (String newValue) {
-                setState(() {
-                  stateDropDownValue = newValue;
-                });
-              },
-              items: <String>[
-                'NSW',
-                'QLD',
-                'SA',
-                'VIC',
-                'WA',
-                'NT',
-                'TAS',
-                'ACT'
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: RaisedButton(
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    Scaffold.of(context).showSnackBar(
-                        SnackBar(content: Text('Processing Data')));
-                  }
-
-                  if (suburbTextController.text.isEmpty) {
-                    _showErrorDialog(
-                        'Suburb Field Empty!',
-                        'The suburb field is empty',
-                        'Please enter a suburb',
-                        'OK');
-                  } else {
-                    // Get the suburb ID from the supplied Suburb and State
-                    int suburbID = await getDomainSuburbIdJson(
-                        dc, suburbTextController.text, stateDropDownValue);
-                    // Create a DomainSuburb object
-                    DomainSuburb ds = DomainSuburb(suburbTextController.text,
-                        stateDropDownValue, suburbID);
-
-                    print(ds.suburbName);
-                    print(ds.suburbState);
-                    print(ds.domainSuburbID);
-                  }
+              DropdownButton<String>(
+                value: stateDropDownValue,
+                icon: Icon(Icons.arrow_drop_down),
+                iconSize: 24,
+                elevation: 16,
+                style: TextStyle(color: Colors.green),
+                underline: Container(
+                  height: 2,
+                  color: Colors.greenAccent,
+                ),
+                onChanged: (String newValue) {
+                  setState(() {
+                    stateDropDownValue = newValue;
+                  });
                 },
-                child: Text('Submit'),
+                items: <String>[
+                  'NSW',
+                  'QLD',
+                  'SA',
+                  'VIC',
+                  'WA',
+                  'NT',
+                  'TAS',
+                  'ACT'
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
               ),
-            ),
-            Spacer(),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: RaisedButton(
+                  onPressed: () async {
+                    if (suburbTextController.text.isEmpty) {
+                      _showErrorDialog(
+                          'Suburb Field Empty!',
+                          'The suburb field is empty',
+                          'Please enter a suburb',
+                          'OK');
+                    } else {
+                      showOverlay();
+                      // Get the suburb ID from the supplied Suburb and State
+                      int suburbID = await getDomainSuburbIdJson(
+                          dc, suburbTextController.text, stateDropDownValue);
+                      // Create a DomainSuburb object
+                      DomainSuburb ds = DomainSuburb(suburbTextController.text,
+                          stateDropDownValue, suburbID);
+                    }
+                  },
+                  child: Text('Submit'),
+                ),
+              ),
+              Spacer(),
+            ],
+          ),
         ),
       ),
+      isLoading: _isLoading,
+      opacity: 0.5,
+      progressIndicator: CircularProgressIndicator(),
     );
   }
 
@@ -264,7 +258,7 @@ class MainTitleFormState extends State<MainTitleForm> {
           'Authorization': 'Bearer ' + dc.accessToken,
         });
     if (response.statusCode == 200) {
-      print(json.decode(response.body));
+      //print(json.decode(response.body));
       return json.decode(response.body)[0]['ids'][0]['id'];
     } else {
       _showErrorDialog(
@@ -304,5 +298,18 @@ class MainTitleFormState extends State<MainTitleForm> {
         );
       },
     );
+  }
+
+  // Function to show a loading indicator
+  void showOverlay() {
+    setState(() {
+      _isLoading = true;
+    });
+
+    Future.delayed(Duration(seconds: 2), () {
+      setState(() {
+        _isLoading = false;
+      });
+    });
   }
 }
