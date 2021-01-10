@@ -1,8 +1,14 @@
+import 'package:domain_insights_application/DomainSuburb.dart';
 import 'package:domain_insights_application/MainTitleForm.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
 class DataResultsFormStateless extends StatelessWidget {
+  // Declare a field to store the sent DomainSuburb data
+  final DomainSuburb ds;
+
+  DataResultsFormStateless({Key key, @required this.ds}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -93,7 +99,7 @@ class DataResultsFormState extends State<DataResultsForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text("Testing"),
+              Text("test"),
             ],
           ),
         ),

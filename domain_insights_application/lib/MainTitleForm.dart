@@ -197,7 +197,8 @@ class MainTitleFormState extends State<MainTitleForm> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DataResultsFormStateless()),
+                            builder: (context) =>
+                                DataResultsFormStateless(ds: ds)),
                       );
                     }
                   },
