@@ -1,5 +1,6 @@
 import 'package:domain_insights_application/DomainSuburb.dart';
 import 'package:domain_insights_application/MainTitleForm.dart';
+import 'package:domain_insights_application/NavigationDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
@@ -21,49 +22,7 @@ class DataResultsFormStateless extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                DrawerHeader(
-                  child: Text(appTitle),
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                  ),
-                ),
-                ListTile(
-                  title: Text('Home'),
-                  onTap: () {
-                    // Update the state of the app
-                  },
-                ),
-                ListTile(
-                  title: Text('Saved Data Results'),
-                  onTap: () {
-                    // Update the state of the app
-                  },
-                ),
-                ListTile(
-                  title: Text('Shortlisted Properties'),
-                  onTap: () {
-                    // Update the state of the app
-                  },
-                ),
-                ListTile(
-                  title: Text('Inspection Calendar'),
-                  onTap: () {
-                    // Update the state of the app
-                  },
-                ),
-                ListTile(
-                  title: Text('Exit'),
-                  onTap: () {
-                    // Update the state of the app
-                  },
-                ),
-              ],
-            ),
-          ),
+          drawer: NavigationDrawer(),
           appBar: AppBar(
             title: Text(appTitle),
           ),

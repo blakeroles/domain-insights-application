@@ -1,6 +1,7 @@
 import 'package:domain_insights_application/DomainAuthenticator.dart';
 import 'package:domain_insights_application/DomainSuburb.dart';
 import 'package:domain_insights_application/DataResultsForm.dart';
+import 'package:domain_insights_application/NavigationDrawer.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -20,54 +21,7 @@ class MainTitleFormStateless extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                DrawerHeader(
-                  child: Text(appTitle),
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                  ),
-                ),
-                ListTile(
-                  leading: Icon(Icons.home),
-                  title: Text('Home'),
-                  onTap: () {
-                    // Update the state of the app
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.save_alt),
-                  title: Text('Saved Data Results'),
-                  onTap: () {
-                    // Update the state of the app
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.list),
-                  title: Text('Shortlisted Properties'),
-                  onTap: () {
-                    // Update the state of the app
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.calendar_today),
-                  title: Text('Inspection Calendar'),
-                  onTap: () {
-                    // Update the state of the app
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.exit_to_app),
-                  title: Text('Exit'),
-                  onTap: () {
-                    // Update the state of the app
-                  },
-                ),
-              ],
-            ),
-          ),
+          drawer: NavigationDrawer(),
           appBar: AppBar(
             title: Text(appTitle),
           ),
