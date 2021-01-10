@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class DomainSuburb {
   // Attributes
   String suburbName;
@@ -5,7 +7,10 @@ class DomainSuburb {
   int domainSuburbID;
 
   // Constructor
-  DomainSuburb(String suburb, String suburbState, int domainSid) {
+  DomainSuburb(
+      {@required String suburb,
+      @required String suburbState,
+      @required int domainSid}) {
     this.suburbName = suburb;
     this.suburbState = suburbState;
     this.domainSuburbID = domainSid;

@@ -56,6 +56,9 @@ class MainTitleFormState extends State<MainTitleForm> {
   // Authenticated flag
   bool authenticated = false;
 
+  // API scope for authentication
+  final String apiScope = 'api_addresslocators_read api_suburbperformance_read';
+
   // Show progress indicator flag
   bool _isLoading = false;
 
@@ -66,7 +69,7 @@ class MainTitleFormState extends State<MainTitleForm> {
     getAppInfoSecretJson().then((value) {
       setState(() {
         dc = value;
-        authenticate(dc);
+        authenticate(dc, apiScope);
       });
     });
 
@@ -147,9 +150,18 @@ class MainTitleFormState extends State<MainTitleForm> {
                       // Get the suburb ID from the supplied Suburb and State
                       int suburbID = await getDomainSuburbIdJson(
                           dc, suburbTextController.text, stateDropDownValue);
+
+                      // Get the median sold price from the suburb ID
+                      int medianSoldPrice = await getMedianSoldPriceJson(
+                          dc, suburbID, stateDropDownValue);
+
+                      print(medianSoldPrice);
+
                       // Create a DomainSuburb object
-                      DomainSuburb ds = DomainSuburb(suburbTextController.text,
-                          stateDropDownValue, suburbID);
+                      DomainSuburb ds = DomainSuburb(
+                          suburb: suburbTextController.text,
+                          suburbState: stateDropDownValue,
+                          domainSid: suburbID);
 
                       print(ds.domainSuburbID);
 
@@ -187,14 +199,14 @@ class MainTitleFormState extends State<MainTitleForm> {
 
   // Function to authenticate with the domain server and
   // retrieve an access code to use
-  void authenticate(DomainAuthenticator dc) async {
+  void authenticate(DomainAuthenticator dc, String apiScope) async {
     final http.Response response = await http.post(
         'https://auth.domain.com.au/v1/connect/token',
         body: <String, String>{
           'client_id': dc.clientId,
           'client_secret': dc.clientSecret,
           'grant_type': 'client_credentials',
-          'scope': 'api_addresslocators_read',
+          'scope': apiScope,
           'Content-Type': 'text/json',
         });
     if (response.statusCode == 200) {
@@ -223,7 +235,6 @@ class MainTitleFormState extends State<MainTitleForm> {
           'Authorization': 'Bearer ' + dc.accessToken,
         });
     if (response.statusCode == 200) {
-      //print(json.decode(response.body));
       return json.decode(response.body)[0]['ids'][0]['id'];
     } else {
       _showErrorDialog(
@@ -232,6 +243,27 @@ class MainTitleFormState extends State<MainTitleForm> {
           'Please enter a correct suburb/state combination',
           'OK');
       throw Exception('Failed to get suburb id from server!');
+    }
+  }
+
+  // Function to get the median sold price for a given suburb ID
+  Future<int> getMedianSoldPriceJson(
+      DomainAuthenticator dc, int suburbID, String state) async {
+    final http.Response response = await http.get(
+        'https://api.domain.com.au/v1/suburbPerformanceStatistics?state=' +
+            state +
+            '&suburbId=' +
+            suburbID.toString() +
+            '&propertyCategory=house&chronologicalSpan=3&tPlusFrom=1&tPlusTo=1',
+        headers: <String, String>{
+          'Authorization': 'Bearer ' + dc.accessToken,
+        });
+    if (response.statusCode == 200) {
+      return response.statusCode;
+    } else {
+      _showErrorDialog('API Call Failed', 'Failed to get data from the server!',
+          'Please try again', 'OK');
+      throw Exception('Failed to get performance data from server!');
     }
   }
 
