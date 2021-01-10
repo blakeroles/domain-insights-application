@@ -44,13 +44,6 @@ class NavigationDrawer extends StatelessWidget {
               // Update the state of the app
             },
           ),
-          ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text('Exit'),
-            onTap: () {
-              // Update the state of the app
-            },
-          ),
         ],
       ),
     );
