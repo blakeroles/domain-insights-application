@@ -1,5 +1,5 @@
 import 'package:domain_insights_application/DomainAuthenticator.dart';
-import 'package:domain_insights_application/DomainSuburb.dart';
+import 'package:domain_insights_application/DomainSuburbData.dart';
 import 'package:domain_insights_application/DataResultsForm.dart';
 import 'package:domain_insights_application/NavigationDrawer.dart';
 import 'package:flutter/material.dart';
@@ -157,19 +157,19 @@ class MainTitleFormState extends State<MainTitleForm> {
 
                       print(medianSoldPrice);
 
-                      // Create a DomainSuburb object
-                      DomainSuburb ds = DomainSuburb(
+                      // Create a DomainSuburbData object
+                      DomainSuburbData dsd = DomainSuburbData(
                           suburb: suburbTextController.text,
                           suburbState: stateDropDownValue,
-                          domainSid: suburbID);
-
-                      print(ds.domainSuburbID);
+                          domainSid: suburbID,
+                          noOfAvailableProperties: 100,
+                          medianSoldPrice: medianSoldPrice);
 
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                DataResultsFormStateless(ds: ds)),
+                                DataResultsFormStateless(dsd: dsd)),
                       );
                     }
                   },
@@ -259,7 +259,8 @@ class MainTitleFormState extends State<MainTitleForm> {
           'Authorization': 'Bearer ' + dc.accessToken,
         });
     if (response.statusCode == 200) {
-      return response.statusCode;
+      return json.decode(response.body)['series']['seriesInfo'][0]['values']
+          ['medianSoldPrice'];
     } else {
       _showErrorDialog('API Call Failed', 'Failed to get data from the server!',
           'Please try again', 'OK');
