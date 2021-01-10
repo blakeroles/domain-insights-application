@@ -31,30 +31,35 @@ class MainTitleFormStateless extends StatelessWidget {
                   ),
                 ),
                 ListTile(
+                  leading: Icon(Icons.home),
                   title: Text('Home'),
                   onTap: () {
                     // Update the state of the app
                   },
                 ),
                 ListTile(
+                  leading: Icon(Icons.save_alt),
                   title: Text('Saved Data Results'),
                   onTap: () {
                     // Update the state of the app
                   },
                 ),
                 ListTile(
+                  leading: Icon(Icons.list),
                   title: Text('Shortlisted Properties'),
                   onTap: () {
                     // Update the state of the app
                   },
                 ),
                 ListTile(
+                  leading: Icon(Icons.calendar_today),
                   title: Text('Inspection Calendar'),
                   onTap: () {
                     // Update the state of the app
                   },
                 ),
                 ListTile(
+                  leading: Icon(Icons.exit_to_app),
                   title: Text('Exit'),
                   onTap: () {
                     // Update the state of the app
