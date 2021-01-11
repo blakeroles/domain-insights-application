@@ -15,37 +15,48 @@ class DataResultsFormStateless extends StatelessWidget {
     final appTitle = 'iPropty';
 
     return MaterialApp(
-      title: appTitle,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Scaffold(
+        title: appTitle,
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: Scaffold(
           drawer: NavigationDrawer(),
           appBar: AppBar(
             title: Text(appTitle),
           ),
           body: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Table(children: [
-                TableRow(children: [
-                  TableCell(child: Text('Suburb')),
-                  TableCell(child: Text(dsd.suburbName))
+              child: Column(children: <Widget>[
+                Table(children: [
+                  TableRow(children: [
+                    TableCell(child: Text('Suburb')),
+                    TableCell(child: Text(dsd.suburbName))
+                  ]),
+                  TableRow(children: [
+                    TableCell(child: Text('State')),
+                    TableCell(child: Text(dsd.suburbState))
+                  ]),
+                  TableRow(children: [
+                    TableCell(child: Text('Number of available properties')),
+                    TableCell(
+                        child: Text(dsd.noOfAvailableProperties.toString()))
+                  ]),
+                  TableRow(children: [
+                    TableCell(child: Text('Median sold price')),
+                    TableCell(child: Text(dsd.medianSoldPrice.toString()))
+                  ])
                 ]),
-                TableRow(children: [
-                  TableCell(child: Text('State')),
-                  TableCell(child: Text(dsd.suburbState))
-                ]),
-                TableRow(children: [
-                  TableCell(child: Text('Number of available properties')),
-                  TableCell(child: Text(dsd.noOfAvailableProperties.toString()))
-                ]),
-                TableRow(children: [
-                  TableCell(child: Text('Median sold price')),
-                  TableCell(child: Text(dsd.medianSoldPrice.toString()))
-                ])
-              ]))),
-    );
+                Container(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  height: 220,
+                  width: double.maxFinite,
+                  child: Card(
+                    elevation: 5,
+                  ),
+                ),
+              ])),
+        ));
   }
 }
 
