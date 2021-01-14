@@ -1,6 +1,6 @@
 import 'package:domain_insights_application/DomainSuburbData.dart';
-import 'package:domain_insights_application/MainTitleForm.dart';
 import 'package:domain_insights_application/NavigationDrawer.dart';
+import 'package:domain_insights_application/PropertyListingCard.dart';
 import 'package:flutter/material.dart';
 
 class DataResultsFormStateless extends StatelessWidget {
@@ -47,43 +47,8 @@ class DataResultsFormStateless extends StatelessWidget {
                     TableCell(child: Text(dsd.medianSoldPrice.toString()))
                   ])
                 ]),
-                Container(
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  height: 220,
-                  width: double.maxFinite,
-                  child: Card(
-                    elevation: 5,
-                  ),
-                ),
+                PropertyListingCard(),
               ])),
         ));
   }
 }
-
-// Create the MainTitleForm widget
-// class DataResultsForm extends StatefulWidget {
-//   @override
-//   DataResultsFormState createState() {
-//     return DataResultsFormState();
-//   }
-// }
-
-// Create the MainTitleFormState class
-// class DataResultsFormState extends State<DataResultsForm> {
-//   @override
-//   Widget build(BuildContext context) {
-//     // Build a Form widget using the _formKey created above
-//     return Form(
-//       child: Container(
-//         width: 250.0,
-//         height: 860.0,
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: <Widget>[
-//             Text("test"),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
