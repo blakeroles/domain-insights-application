@@ -16,15 +16,15 @@ class DataResultsFormStateless extends StatelessWidget {
     final appTitle = 'iPropty';
 
     DomainPropertyListing dPL = DomainPropertyListing(
-        "TitleTest",
-        "DescriptionTest",
-        "TownhouseTest",
-        "AddressTest",
-        "InspectionTest",
-        750000,
+        "Auction - Contact Agent",
+        "Delightful townhouse",
+        "Townhouse",
+        "30/19 Taranto Road, Marsfield, NSW 2122",
+        "Saturday 16th January 2021 12pm",
+        800000,
         2,
-        2,
-        20);
+        1,
+        1);
 
     return MaterialApp(
         title: appTitle,
