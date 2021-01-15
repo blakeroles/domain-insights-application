@@ -1,7 +1,17 @@
+import 'package:domain_insights_application/DomainPropertyListing.dart';
 import 'package:domain_insights_application/presentation/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class PropertyListingCard extends StatelessWidget {
+  // Attributes
+  DomainPropertyListing dPL;
+
+  // Constructor
+  PropertyListingCard(DomainPropertyListing dPL) {
+    this.dPL = dPL;
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -120,7 +130,7 @@ class PropertyListingCard extends StatelessWidget {
       alignment: Alignment.topRight,
       child: RichText(
         text: TextSpan(
-          text: '2',
+          text: dPL.listingCarSpaces.toString(),
           style: TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -133,7 +143,7 @@ class PropertyListingCard extends StatelessWidget {
       alignment: Alignment.topRight,
       child: RichText(
         text: TextSpan(
-          text: '1',
+          text: dPL.listingBathrooms.toString(),
           style: TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -146,7 +156,7 @@ class PropertyListingCard extends StatelessWidget {
       alignment: Alignment.topRight,
       child: RichText(
         text: TextSpan(
-          text: '2',
+          text: dPL.listingBedrooms.toString(),
           style: TextStyle(
               fontWeight: FontWeight.bold, color: Colors.green, fontSize: 20),
         ),
@@ -162,7 +172,7 @@ class PropertyListingCard extends StatelessWidget {
             child: RichText(
                 textAlign: TextAlign.right,
                 text: TextSpan(
-                    text: "\$799,000",
+                    text: "\$" + dPL.listingPrice.toString(),
                     style: TextStyle(
                       color: Colors.green,
                       fontSize: 35,
@@ -177,7 +187,7 @@ class PropertyListingCard extends StatelessWidget {
             child: RichText(
                 textAlign: TextAlign.right,
                 text: TextSpan(
-                    text: "Saturday 16th Jan 2021 10:00am",
+                    text: dPL.listingNextInspection,
                     style: TextStyle(
                       color: Colors.green,
                       fontSize: 15,
@@ -192,7 +202,7 @@ class PropertyListingCard extends StatelessWidget {
             child: RichText(
                 textAlign: TextAlign.right,
                 text: TextSpan(
-                    text: "Title",
+                    text: dPL.listingTitle,
                     style: TextStyle(
                       color: Colors.green,
                       fontSize: 25,
@@ -207,7 +217,7 @@ class PropertyListingCard extends StatelessWidget {
             child: RichText(
                 textAlign: TextAlign.right,
                 text: TextSpan(
-                    text: "Description",
+                    text: dPL.listingDescription,
                     style: TextStyle(
                       color: Colors.green,
                       fontSize: 20,
@@ -222,7 +232,7 @@ class PropertyListingCard extends StatelessWidget {
             child: RichText(
                 textAlign: TextAlign.right,
                 text: TextSpan(
-                    text: "Property Type",
+                    text: dPL.listingPropertyType,
                     style: TextStyle(
                       color: Colors.green,
                       fontSize: 15,
@@ -237,7 +247,7 @@ class PropertyListingCard extends StatelessWidget {
             child: RichText(
                 textAlign: TextAlign.right,
                 text: TextSpan(
-                    text: "Address",
+                    text: dPL.listingAddress,
                     style: TextStyle(
                       color: Colors.green,
                       fontSize: 15,

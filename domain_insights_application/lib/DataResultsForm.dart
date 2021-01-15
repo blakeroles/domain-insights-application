@@ -1,3 +1,4 @@
+import 'package:domain_insights_application/DomainPropertyListing.dart';
 import 'package:domain_insights_application/DomainSuburbData.dart';
 import 'package:domain_insights_application/NavigationDrawer.dart';
 import 'package:domain_insights_application/PropertyListingCard.dart';
@@ -13,6 +14,17 @@ class DataResultsFormStateless extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appTitle = 'iPropty';
+
+    DomainPropertyListing dPL = DomainPropertyListing(
+        "TitleTest",
+        "DescriptionTest",
+        "TownhouseTest",
+        "AddressTest",
+        "InspectionTest",
+        750000,
+        2,
+        2,
+        20);
 
     return MaterialApp(
         title: appTitle,
@@ -47,7 +59,7 @@ class DataResultsFormStateless extends StatelessWidget {
                     TableCell(child: Text(dsd.medianSoldPrice.toString()))
                   ])
                 ]),
-                PropertyListingCard(),
+                PropertyListingCard(dPL),
               ])),
         ));
   }
