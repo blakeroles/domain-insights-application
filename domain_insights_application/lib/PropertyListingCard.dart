@@ -7,7 +7,7 @@ class PropertyListingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-      height: 220,
+      height: 350,
       width: double.maxFinite,
       child: Card(
           elevation: 5,
@@ -26,13 +26,49 @@ class PropertyListingCard extends StatelessWidget {
                                   Row(children: <Widget>[
                                     Spacer(),
                                     bedrooms(),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     bedroomIcon(),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     bathrooms(),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     bathroomIcon(),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     carSpaces(),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     carIcon(),
                                   ]),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(children: <Widget>[
+                                    title(),
+                                  ]),
+                                  Row(children: <Widget>[
+                                    description(),
+                                  ]),
                                   Spacer(),
+                                  Row(children: <Widget>[
+                                    Spacer(),
+                                    propertyType(),
+                                  ]),
+                                  Row(children: <Widget>[
+                                    Spacer(),
+                                    address(),
+                                  ]),
+                                  Row(children: <Widget>[
+                                    Spacer(),
+                                    inspection(),
+                                  ]),
                                   Row(children: <Widget>[
                                     Spacer(),
                                     price(),
@@ -63,7 +99,7 @@ class PropertyListingCard extends StatelessWidget {
       child: Icon(
         CustomIcons.bath,
         color: Colors.green,
-        size: 30,
+        size: 22,
       ),
     );
   }
@@ -130,6 +166,81 @@ class PropertyListingCard extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.green,
                       fontSize: 35,
+                    )))));
+  }
+
+  Widget inspection() {
+    return Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: RichText(
+                textAlign: TextAlign.right,
+                text: TextSpan(
+                    text: "Saturday 16th Jan 2021 10:00am",
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 15,
+                    )))));
+  }
+
+  Widget title() {
+    return Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: RichText(
+                textAlign: TextAlign.right,
+                text: TextSpan(
+                    text: "Title",
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 25,
+                    )))));
+  }
+
+  Widget description() {
+    return Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: RichText(
+                textAlign: TextAlign.right,
+                text: TextSpan(
+                    text: "Description",
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 20,
+                    )))));
+  }
+
+  Widget propertyType() {
+    return Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: RichText(
+                textAlign: TextAlign.right,
+                text: TextSpan(
+                    text: "Property Type",
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 15,
+                    )))));
+  }
+
+  Widget address() {
+    return Align(
+        alignment: Alignment.centerRight,
+        child: Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: RichText(
+                textAlign: TextAlign.right,
+                text: TextSpan(
+                    text: "Address",
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 15,
                     )))));
   }
 }
