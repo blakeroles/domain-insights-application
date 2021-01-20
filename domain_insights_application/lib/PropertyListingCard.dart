@@ -17,7 +17,7 @@ class PropertyListingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-      height: 350,
+      height: 300,
       width: double.maxFinite,
       child: Card(
           elevation: 5,
