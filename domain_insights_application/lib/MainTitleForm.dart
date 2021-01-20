@@ -57,7 +57,8 @@ class MainTitleFormState extends State<MainTitleForm> {
   bool authenticated = false;
 
   // API scope for authentication
-  final String apiScope = 'api_addresslocators_read api_suburbperformance_read';
+  final String apiScope =
+      'api_addresslocators_read api_suburbperformance_read api_listings_read';
 
   // Show progress indicator flag
   bool _isLoading = false;
@@ -174,6 +175,15 @@ class MainTitleFormState extends State<MainTitleForm> {
                   child: Text('Submit'),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: RaisedButton(
+                  onPressed: () async {
+                    await getSuburbListings();
+                  },
+                  child: Text('Get Listings'),
+                ),
+              ),
               Spacer(),
             ],
           ),
@@ -264,6 +274,45 @@ class MainTitleFormState extends State<MainTitleForm> {
           'Please try again', 'OK');
       throw Exception('Failed to get performance data from server!');
     }
+  }
+
+  // Function to get the suburb listings from Domain based on the
+  // form data
+  Future<void> getSuburbListings() async {
+    List<String> propertyTypes = List<String>();
+    propertyTypes.add('Townhouse');
+
+    List<Map> locations = List<Map>();
+
+    Map location = {
+      'state': 'NSW',
+      'suburb': 'Marsfield',
+      'postCode': '2122',
+      'includeSurroundingSuburbs': 'true',
+    };
+
+    locations.add(location);
+
+    Map data = {
+      'listingType': 'Sale',
+      'propertyTypes': propertyTypes,
+      'minBedrooms': '1',
+      'minBathrooms': '1',
+      'minCarspaces': '1',
+      'locations': locations,
+    };
+
+    var body = json.encode(data);
+
+    final http.Response response = await http.post(
+        'https://api.domain.com.au/v1/listings/residential/_search',
+        body: body,
+        headers: <String, String>{
+          'Authorization': 'Bearer ' + dc.accessToken,
+          'Content-Type': 'application/json',
+        });
+    print(response.statusCode);
+    print(json.decode(response.body)[2]);
   }
 
   // Alert dialog if API call fails
