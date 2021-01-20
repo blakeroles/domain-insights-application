@@ -1,4 +1,5 @@
 import 'package:domain_insights_application/DomainAuthenticator.dart';
+import 'package:domain_insights_application/DomainPropertyListing.dart';
 import 'package:domain_insights_application/DomainSuburbData.dart';
 import 'package:domain_insights_application/DataResultsForm.dart';
 import 'package:domain_insights_application/NavigationDrawer.dart';
@@ -278,7 +279,7 @@ class MainTitleFormState extends State<MainTitleForm> {
 
   // Function to get the suburb listings from Domain based on the
   // form data
-  Future<void> getSuburbListings() async {
+  Future<List<DomainPropertyListing>> getSuburbListings() async {
     List<String> propertyTypes = List<String>();
     propertyTypes.add('Townhouse');
 
@@ -287,8 +288,7 @@ class MainTitleFormState extends State<MainTitleForm> {
     Map location = {
       'state': 'NSW',
       'suburb': 'Marsfield',
-      'postCode': '2122',
-      'includeSurroundingSuburbs': 'true',
+      'includeSurroundingSuburbs': 'false',
     };
 
     locations.add(location);
@@ -312,7 +312,11 @@ class MainTitleFormState extends State<MainTitleForm> {
           'Content-Type': 'application/json',
         });
     print(response.statusCode);
-    print(json.decode(response.body)[2]);
+    print(json.decode(response.body)[0]['listing']['propertyDetails']);
+
+    List<DomainPropertyListing> dPLList;
+
+    return dPLList;
   }
 
   // Alert dialog if API call fails
