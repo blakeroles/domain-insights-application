@@ -3,6 +3,9 @@ import 'package:domain_insights_application/DomainPropertyListing.dart';
 import 'package:domain_insights_application/DomainSuburbData.dart';
 import 'package:domain_insights_application/DataResultsForm.dart';
 import 'package:domain_insights_application/NavigationDrawer.dart';
+import 'package:domain_insights_application/NumberDropDownButton.dart';
+import 'package:domain_insights_application/StateDropDownButton.dart';
+import 'package:domain_insights_application/presentation/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -93,50 +96,49 @@ class MainTitleFormState extends State<MainTitleForm> {
       child: Form(
         key: _formKey,
         child: Container(
-          width: 250.0,
-          height: 860.0,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Spacer(),
-              TextFormField(
-                controller: suburbTextController,
-                decoration: InputDecoration(
-                  hintText: 'Enter a suburb or postcode',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              DropdownButton<String>(
-                value: stateDropDownValue,
-                icon: Icon(Icons.arrow_drop_down),
-                iconSize: 24,
-                elevation: 16,
-                style: TextStyle(color: Colors.green),
-                underline: Container(
-                  height: 2,
-                  color: Colors.greenAccent,
-                ),
-                onChanged: (String newValue) {
-                  setState(() {
-                    stateDropDownValue = newValue;
-                  });
-                },
-                items: <String>[
-                  'NSW',
-                  'QLD',
-                  'SA',
-                  'VIC',
-                  'WA',
-                  'NT',
-                  'TAS',
-                  'ACT'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+              Table(children: [
+                TableRow(children: [
+                  TableCell(child: Text('Suburb')),
+                  TableCell(
+                    child: TextFormField(
+                      controller: suburbTextController,
+                      decoration: InputDecoration(
+                        hintText: 'Enter a suburb',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  )
+                ]),
+                TableRow(children: [
+                  TableCell(child: Text('State')),
+                  TableCell(
+                    child: StateDropDownButton(),
+                  ),
+                ]),
+                TableRow(children: [
+                  TableCell(
+                    child: Icon(Icons.hotel),
+                  ),
+                  TableCell(child: NumberDropDownButton()),
+                ]),
+                TableRow(children: [
+                  TableCell(
+                    child: Icon(CustomIcons.bath),
+                  ),
+                  TableCell(child: NumberDropDownButton()),
+                ]),
+                TableRow(children: [
+                  TableCell(
+                    child: Icon(Icons.directions_car),
+                  ),
+                  TableCell(child: NumberDropDownButton()),
+                ]),
+              ]),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: RaisedButton(
@@ -186,7 +188,6 @@ class MainTitleFormState extends State<MainTitleForm> {
                   child: Text('Submit'),
                 ),
               ),
-              Spacer(),
             ],
           ),
         ),
