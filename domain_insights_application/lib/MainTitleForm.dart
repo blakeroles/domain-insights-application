@@ -326,11 +326,11 @@ class MainTitleFormState extends State<MainTitleForm> {
 
     if (response.statusCode == 200) {
       List<DomainPropertyListing> dPLList;
+
       dPLList = (json.decode(response.body) as List)
           .map((i) => DomainPropertyListing.fromJson(i))
           .toList();
-      print(json.decode(response.body)[0]['listing']['propertyDetails']);
-      print(dPLList[0].listingCarSpaces);
+
       return dPLList;
     } else {
       _showErrorDialog('API Call Failed', 'Failed to get data from the server!',
