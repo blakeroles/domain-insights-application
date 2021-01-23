@@ -25,34 +25,40 @@ class DataResultsFormStateless extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: Scaffold(
-          drawer: NavigationDrawer(),
-          appBar: AppBar(
-            title: Text(appTitle),
-          ),
-          body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(children: <Widget>[
-                Table(children: [
-                  TableRow(children: [
-                    TableCell(child: Text('Suburb')),
-                    TableCell(child: Text(dsd.suburbName))
-                  ]),
-                  TableRow(children: [
-                    TableCell(child: Text('State')),
-                    TableCell(child: Text(dsd.suburbState))
-                  ]),
-                  TableRow(children: [
-                    TableCell(child: Text('Number of available properties')),
-                    TableCell(
-                        child: Text(dsd.noOfAvailableProperties.toString()))
-                  ]),
-                  TableRow(children: [
-                    TableCell(child: Text('Median sold price')),
-                    TableCell(child: Text(dsd.medianSoldPrice.toString()))
-                  ])
-                ]),
-                PropertyListingCard(dPLList[5]),
-              ])),
-        ));
+            drawer: NavigationDrawer(),
+            appBar: AppBar(
+              title: Text(appTitle),
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(children: <Widget>[
+                    Table(children: [
+                      TableRow(children: [
+                        TableCell(child: Text('Suburb')),
+                        TableCell(child: Text(dsd.suburbName))
+                      ]),
+                      TableRow(children: [
+                        TableCell(child: Text('State')),
+                        TableCell(child: Text(dsd.suburbState))
+                      ]),
+                      TableRow(children: [
+                        TableCell(
+                            child: Text('Number of available properties')),
+                        TableCell(
+                            child: Text(dsd.noOfAvailableProperties.toString()))
+                      ]),
+                      TableRow(children: [
+                        TableCell(child: Text('Median sold price')),
+                        TableCell(child: Text(dsd.medianSoldPrice.toString()))
+                      ])
+                    ]),
+                    PropertyListingCard(dPLList[0]),
+                    PropertyListingCard(dPLList[1]),
+                    PropertyListingCard(dPLList[2]),
+                    PropertyListingCard(dPLList[3]),
+                    PropertyListingCard(dPLList[4]),
+                  ])),
+            )));
   }
 }
