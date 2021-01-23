@@ -53,11 +53,8 @@ class DataResultsFormStateless extends StatelessWidget {
                         TableCell(child: Text(dsd.medianSoldPrice.toString()))
                       ])
                     ]),
-                    PropertyListingCard(dPLList[0]),
-                    PropertyListingCard(dPLList[1]),
-                    PropertyListingCard(dPLList[2]),
-                    PropertyListingCard(dPLList[3]),
-                    PropertyListingCard(dPLList[4]),
+                    for (DomainPropertyListing dPL in dPLList)
+                      PropertyListingCard(dPL),
                   ])),
             )));
   }
