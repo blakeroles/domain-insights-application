@@ -7,24 +7,16 @@ import 'package:flutter/material.dart';
 class DataResultsFormStateless extends StatelessWidget {
   // Declare a field to store the sent DomainSuburb data
   final DomainSuburbData dsd;
+  final List<DomainPropertyListing> dPLList;
 
-  DataResultsFormStateless({Key key, @required this.dsd}) : super(key: key);
+  DataResultsFormStateless(
+      {Key key, @required this.dsd, @required this.dPLList})
+      : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     final appTitle = 'iPropty';
-
-    DomainPropertyListing dPL = DomainPropertyListing(
-        "Auction - Contact Agent",
-        "Delightful townhouse",
-        "Townhouse",
-        "30/19 Taranto Road, Marsfield, NSW 2122",
-        "Saturday 16th January 2021 12pm",
-        800000,
-        2,
-        1,
-        1);
 
     return MaterialApp(
         title: appTitle,
@@ -59,7 +51,7 @@ class DataResultsFormStateless extends StatelessWidget {
                     TableCell(child: Text(dsd.medianSoldPrice.toString()))
                   ])
                 ]),
-                PropertyListingCard(dPL),
+                PropertyListingCard(dPLList[5]),
               ])),
         ));
   }

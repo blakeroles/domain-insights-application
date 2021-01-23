@@ -165,24 +165,25 @@ class MainTitleFormState extends State<MainTitleForm> {
                           noOfAvailableProperties: 100,
                           medianSoldPrice: medianSoldPrice);
 
+                      // Get the Domain Listings based on data entered
+                      List<DomainPropertyListing> dPLList =
+                          await getSuburbListings(
+                              'Townhouse',
+                              suburbTextController.text,
+                              stateDropDownValue,
+                              '1',
+                              '1',
+                              '1');
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                DataResultsFormStateless(dsd: dsd)),
+                            builder: (context) => DataResultsFormStateless(
+                                dsd: dsd, dPLList: dPLList)),
                       );
                     }
                   },
                   child: Text('Submit'),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: RaisedButton(
-                  onPressed: () async {
-                    await getSuburbListings();
-                  },
-                  child: Text('Get Listings'),
                 ),
               ),
               Spacer(),
@@ -279,31 +280,42 @@ class MainTitleFormState extends State<MainTitleForm> {
 
   // Function to get the suburb listings from Domain based on the
   // form data
-  Future<List<DomainPropertyListing>> getSuburbListings() async {
+  Future<List<DomainPropertyListing>> getSuburbListings(
+      String propertyType,
+      String suburb,
+      String state,
+      String bedrooms,
+      String bathrooms,
+      String carSpaces) async {
+    // Construct a list of property types for the json post
     List<String> propertyTypes = List<String>();
-    propertyTypes.add('Townhouse');
+    propertyTypes.add(propertyType);
 
+    // Construct a list of locations for the json post
     List<Map> locations = List<Map>();
 
     Map location = {
-      'state': 'NSW',
-      'suburb': 'Marsfield',
+      'state': state,
+      'suburb': suburb,
       'includeSurroundingSuburbs': 'false',
     };
 
     locations.add(location);
 
+    // Construct the data json Map to be sent with the post http call
     Map data = {
       'listingType': 'Sale',
       'propertyTypes': propertyTypes,
-      'minBedrooms': '1',
-      'minBathrooms': '1',
-      'minCarspaces': '1',
+      'minBedrooms': bedrooms,
+      'minBathrooms': bathrooms,
+      'minCarspaces': carSpaces,
       'locations': locations,
     };
 
+    // Encode the body of the response with json type
     var body = json.encode(data);
 
+    // Make a call to the api and get a response
     final http.Response response = await http.post(
         'https://api.domain.com.au/v1/listings/residential/_search',
         body: body,
@@ -311,12 +323,20 @@ class MainTitleFormState extends State<MainTitleForm> {
           'Authorization': 'Bearer ' + dc.accessToken,
           'Content-Type': 'application/json',
         });
-    print(response.statusCode);
-    print(json.decode(response.body)[0]['listing']['propertyDetails']);
 
-    List<DomainPropertyListing> dPLList;
-
-    return dPLList;
+    if (response.statusCode == 200) {
+      List<DomainPropertyListing> dPLList;
+      dPLList = (json.decode(response.body) as List)
+          .map((i) => DomainPropertyListing.fromJson(i))
+          .toList();
+      print(json.decode(response.body)[0]['listing']['propertyDetails']);
+      print(dPLList[0].listingCarSpaces);
+      return dPLList;
+    } else {
+      _showErrorDialog('API Call Failed', 'Failed to get data from the server!',
+          'Please try again', 'OK');
+      throw Exception('Failed to get listing data from server!');
+    }
   }
 
   // Alert dialog if API call fails
