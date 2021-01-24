@@ -176,9 +176,9 @@ class MainTitleFormState extends State<MainTitleForm> {
                               'Townhouse',
                               suburbTextController.text,
                               sDDB.stateDropDownValue,
-                              '1',
-                              '1',
-                              '1');
+                              nDDBBed.numberDropDownValue,
+                              nDDBBath.numberDropDownValue,
+                              nDDBCar.numberDropDownValue);
 
                       Navigator.push(
                         context,
@@ -305,7 +305,6 @@ class MainTitleFormState extends State<MainTitleForm> {
     };
 
     locations.add(location);
-
     // Construct the data json Map to be sent with the post http call
     Map data = {
       'listingType': 'Sale',
