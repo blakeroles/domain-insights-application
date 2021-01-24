@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class StateDropDownButton extends StatefulWidget {
+  // Set the initial selection for the stateDropDownBox
+  String stateDropDownValue = 'NSW';
+
   @override
   StateDropDownButtonState createState() {
     return StateDropDownButtonState();
@@ -8,14 +12,11 @@ class StateDropDownButton extends StatefulWidget {
 }
 
 class StateDropDownButtonState extends State<StateDropDownButton> {
-// Set the initial selection for the stateDropDownBox
-  String stateDropDownValue = 'NSW';
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-      value: stateDropDownValue,
+      value: widget.stateDropDownValue,
       icon: Icon(Icons.arrow_drop_down),
       iconSize: 24,
       elevation: 16,
@@ -26,7 +27,7 @@ class StateDropDownButtonState extends State<StateDropDownButton> {
       ),
       onChanged: (String newValue) {
         setState(() {
-          stateDropDownValue = newValue;
+          widget.stateDropDownValue = newValue;
         });
       },
       items: <String>['NSW', 'QLD', 'SA', 'VIC', 'WA', 'NT', 'TAS', 'ACT']

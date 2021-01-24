@@ -51,8 +51,11 @@ class MainTitleFormState extends State<MainTitleForm> {
   // Create a text controller for the suburb text field
   final suburbTextController = TextEditingController();
 
-  // Set the initial selection for the stateDropDownBox
-  String stateDropDownValue = 'NSW';
+  // Initialise the DropDownButtons
+  StateDropDownButton sDDB = StateDropDownButton();
+  NumberDropDownButton nDDBBed = NumberDropDownButton();
+  NumberDropDownButton nDDBBath = NumberDropDownButton();
+  NumberDropDownButton nDDBCar = NumberDropDownButton();
 
   // Initialise DomainAuthenticator class
   DomainAuthenticator dc = DomainAuthenticator();
@@ -117,26 +120,26 @@ class MainTitleFormState extends State<MainTitleForm> {
                 TableRow(children: [
                   TableCell(child: Text('State')),
                   TableCell(
-                    child: StateDropDownButton(),
+                    child: sDDB,
                   ),
                 ]),
                 TableRow(children: [
                   TableCell(
                     child: Icon(Icons.hotel),
                   ),
-                  TableCell(child: NumberDropDownButton()),
+                  TableCell(child: nDDBBed),
                 ]),
                 TableRow(children: [
                   TableCell(
                     child: Icon(CustomIcons.bath),
                   ),
-                  TableCell(child: NumberDropDownButton()),
+                  TableCell(child: nDDBBath),
                 ]),
                 TableRow(children: [
                   TableCell(
                     child: Icon(Icons.directions_car),
                   ),
-                  TableCell(child: NumberDropDownButton()),
+                  TableCell(child: nDDBCar),
                 ]),
               ]),
               Padding(
@@ -152,17 +155,17 @@ class MainTitleFormState extends State<MainTitleForm> {
                     } else {
                       showOverlay();
                       // Get the suburb ID from the supplied Suburb and State
-                      int suburbID = await getDomainSuburbIdJson(
-                          dc, suburbTextController.text, stateDropDownValue);
+                      int suburbID = await getDomainSuburbIdJson(dc,
+                          suburbTextController.text, sDDB.stateDropDownValue);
 
                       // Get the median sold price from the suburb ID
                       int medianSoldPrice = await getMedianSoldPriceJson(
-                          dc, suburbID, stateDropDownValue);
+                          dc, suburbID, sDDB.stateDropDownValue);
 
                       // Create a DomainSuburbData object
                       DomainSuburbData dsd = DomainSuburbData(
                           suburb: suburbTextController.text,
-                          suburbState: stateDropDownValue,
+                          suburbState: sDDB.stateDropDownValue,
                           domainSid: suburbID,
                           noOfAvailableProperties: 100,
                           medianSoldPrice: medianSoldPrice);
@@ -172,7 +175,7 @@ class MainTitleFormState extends State<MainTitleForm> {
                           await getSuburbListings(
                               'Townhouse',
                               suburbTextController.text,
-                              stateDropDownValue,
+                              sDDB.stateDropDownValue,
                               '1',
                               '1',
                               '1');
