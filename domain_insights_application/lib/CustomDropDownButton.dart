@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class StateDropDownButton extends StatefulWidget {
+class CustomDropDownButton extends StatefulWidget {
   // Set the initial selection for the stateDropDownBox
-  String stateDropDownValue = 'NSW';
+  String dropDownValue;
+  List<String> dropDownValues;
+
+  CustomDropDownButton(String value, List<String> values) {
+    this.dropDownValue = value;
+    this.dropDownValues = values;
+  }
 
   @override
-  StateDropDownButtonState createState() {
-    return StateDropDownButtonState();
+  CustomDropDownButtonState createState() {
+    return CustomDropDownButtonState();
   }
 }
 
-class StateDropDownButtonState extends State<StateDropDownButton> {
+class CustomDropDownButtonState extends State<CustomDropDownButton> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
-      value: widget.stateDropDownValue,
+      value: widget.dropDownValue,
       icon: Icon(Icons.arrow_drop_down),
       iconSize: 24,
       elevation: 16,
@@ -27,11 +33,11 @@ class StateDropDownButtonState extends State<StateDropDownButton> {
       ),
       onChanged: (String newValue) {
         setState(() {
-          widget.stateDropDownValue = newValue;
+          widget.dropDownValue = newValue;
         });
       },
-      items: <String>['NSW', 'QLD', 'SA', 'VIC', 'WA', 'NT', 'TAS', 'ACT']
-          .map<DropdownMenuItem<String>>((String value) {
+      items:
+          widget.dropDownValues.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),

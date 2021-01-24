@@ -4,7 +4,7 @@ import 'package:domain_insights_application/DomainSuburbData.dart';
 import 'package:domain_insights_application/DataResultsForm.dart';
 import 'package:domain_insights_application/NavigationDrawer.dart';
 import 'package:domain_insights_application/NumberDropDownButton.dart';
-import 'package:domain_insights_application/StateDropDownButton.dart';
+import 'package:domain_insights_application/CustomDropDownButton.dart';
 import 'package:domain_insights_application/presentation/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -52,10 +52,14 @@ class MainTitleFormState extends State<MainTitleForm> {
   final suburbTextController = TextEditingController();
 
   // Initialise the DropDownButtons
-  StateDropDownButton sDDB = StateDropDownButton();
-  NumberDropDownButton nDDBBed = NumberDropDownButton();
-  NumberDropDownButton nDDBBath = NumberDropDownButton();
-  NumberDropDownButton nDDBCar = NumberDropDownButton();
+  CustomDropDownButton sDDB = CustomDropDownButton(
+      'NSW', ['NSW', 'QLD', 'SA', 'VIC', 'WA', 'NT', 'TAS', 'ACT']);
+  CustomDropDownButton nDDBBed =
+      CustomDropDownButton("1", ['1', '2', '3', '4', '5']);
+  CustomDropDownButton nDDBBath =
+      CustomDropDownButton("1", ['1', '2', '3', '4', '5']);
+  CustomDropDownButton nDDBCar =
+      CustomDropDownButton("1", ['1', '2', '3', '4', '5']);
 
   // Initialise DomainAuthenticator class
   DomainAuthenticator dc = DomainAuthenticator();
@@ -155,17 +159,17 @@ class MainTitleFormState extends State<MainTitleForm> {
                     } else {
                       showOverlay();
                       // Get the suburb ID from the supplied Suburb and State
-                      int suburbID = await getDomainSuburbIdJson(dc,
-                          suburbTextController.text, sDDB.stateDropDownValue);
+                      int suburbID = await getDomainSuburbIdJson(
+                          dc, suburbTextController.text, sDDB.dropDownValue);
 
                       // Get the median sold price from the suburb ID
                       int medianSoldPrice = await getMedianSoldPriceJson(
-                          dc, suburbID, sDDB.stateDropDownValue);
+                          dc, suburbID, sDDB.dropDownValue);
 
                       // Create a DomainSuburbData object
                       DomainSuburbData dsd = DomainSuburbData(
                           suburb: suburbTextController.text,
-                          suburbState: sDDB.stateDropDownValue,
+                          suburbState: sDDB.dropDownValue,
                           domainSid: suburbID,
                           noOfAvailableProperties: 100,
                           medianSoldPrice: medianSoldPrice);
@@ -175,10 +179,10 @@ class MainTitleFormState extends State<MainTitleForm> {
                           await getSuburbListings(
                               'Townhouse',
                               suburbTextController.text,
-                              sDDB.stateDropDownValue,
-                              nDDBBed.numberDropDownValue,
-                              nDDBBath.numberDropDownValue,
-                              nDDBCar.numberDropDownValue);
+                              sDDB.dropDownValue,
+                              nDDBBed.dropDownValue,
+                              nDDBBath.dropDownValue,
+                              nDDBCar.dropDownValue);
 
                       Navigator.push(
                         context,
@@ -305,6 +309,10 @@ class MainTitleFormState extends State<MainTitleForm> {
     };
 
     locations.add(location);
+    print(bedrooms);
+    print(bathrooms);
+    print(carSpaces);
+
     // Construct the data json Map to be sent with the post http call
     Map data = {
       'listingType': 'Sale',
