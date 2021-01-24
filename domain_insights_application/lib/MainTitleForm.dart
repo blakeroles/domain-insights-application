@@ -3,7 +3,6 @@ import 'package:domain_insights_application/DomainPropertyListing.dart';
 import 'package:domain_insights_application/DomainSuburbData.dart';
 import 'package:domain_insights_application/DataResultsForm.dart';
 import 'package:domain_insights_application/NavigationDrawer.dart';
-import 'package:domain_insights_application/NumberDropDownButton.dart';
 import 'package:domain_insights_application/CustomDropDownButton.dart';
 import 'package:domain_insights_application/presentation/custom_icons_icons.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +59,8 @@ class MainTitleFormState extends State<MainTitleForm> {
       CustomDropDownButton("1", ['1', '2', '3', '4', '5']);
   CustomDropDownButton nDDBCar =
       CustomDropDownButton("1", ['1', '2', '3', '4', '5']);
+  CustomDropDownButton pDDB = CustomDropDownButton(
+      'House', ['House', 'Townhouse', 'ApartmentUnitFlat']);
 
   // Initialise DomainAuthenticator class
   DomainAuthenticator dc = DomainAuthenticator();
@@ -128,6 +129,12 @@ class MainTitleFormState extends State<MainTitleForm> {
                   ),
                 ]),
                 TableRow(children: [
+                  TableCell(child: Text('Property Type')),
+                  TableCell(
+                    child: pDDB,
+                  ),
+                ]),
+                TableRow(children: [
                   TableCell(
                     child: Icon(Icons.hotel),
                   ),
@@ -177,7 +184,7 @@ class MainTitleFormState extends State<MainTitleForm> {
                       // Get the Domain Listings based on data entered
                       List<DomainPropertyListing> dPLList =
                           await getSuburbListings(
-                              'Townhouse',
+                              pDDB.dropDownValue,
                               suburbTextController.text,
                               sDDB.dropDownValue,
                               nDDBBed.dropDownValue,
@@ -309,9 +316,6 @@ class MainTitleFormState extends State<MainTitleForm> {
     };
 
     locations.add(location);
-    print(bedrooms);
-    print(bathrooms);
-    print(carSpaces);
 
     // Construct the data json Map to be sent with the post http call
     Map data = {
