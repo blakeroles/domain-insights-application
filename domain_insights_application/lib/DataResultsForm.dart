@@ -50,7 +50,8 @@ class DataResultsFormStateless extends StatelessWidget {
                       ]),
                       TableRow(children: [
                         TableCell(child: Text('Median sold price')),
-                        TableCell(child: Text(dsd.medianSoldPrice.toString()))
+                        TableCell(
+                            child: Text('\$' + dsd.medianSoldPrice.toString()))
                       ])
                     ]),
                     for (DomainPropertyListing dPL in dPLList)
